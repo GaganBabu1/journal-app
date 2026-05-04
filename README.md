@@ -46,7 +46,7 @@ mongod
 ```
 
 # OR MongoDB Atlas (Cloud) - Use this for production
-# spring.data.mongodb.uri=mongodb+srv://username:password@cluster.mongodb.net/journaldb
+spring.data.mongodb.uri=mongodb+srv://${MONGO_USER}:${MONGO_PASS}@cluster.mongodb.net/journaldb
 
 Update `application.properties` with your MongoDB details:
 ```properties
