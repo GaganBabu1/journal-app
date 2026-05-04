@@ -166,5 +166,5 @@ frontend/
 
 Gagan Babu
 
-GitHub: [@yourusername](https://github.com/yourusername)  
-Email: your.email@example.com
+GitHub: [@GaganBabu1](https://github.com/GaganBabu1)  
+
