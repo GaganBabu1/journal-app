@@ -1,40 +1,27 @@
-package com.example.journalApp.entity;
-
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
-import org.bson.types.ObjectId;
+package com.example.journalApp.dto;
 
 import java.time.LocalDateTime;
 
-@Document(collection = "journal_entries")
-public class JournalEntry {
-
-    @Id
-    private ObjectId id;
+public class JournalEntryDTO {
+    private String id;
     private String title;
     private String content;
     private String userId;
-    private LocalDateTime date;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
-    public JournalEntry() {
-    }
+    public JournalEntryDTO() {}
 
-    public JournalEntry(String title, String content, String userId) {
+    public JournalEntryDTO(String title, String content) {
         this.title = title;
         this.content = content;
-        this.userId = userId;
-        this.date = LocalDateTime.now();
-        this.createdAt = LocalDateTime.now();
-        this.updatedAt = LocalDateTime.now();
     }
 
-    public ObjectId getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(ObjectId id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -60,14 +47,6 @@ public class JournalEntry {
 
     public void setUserId(String userId) {
         this.userId = userId;
-    }
-
-    public LocalDateTime getDate() {
-        return date;
-    }
-
-    public void setDate(LocalDateTime date) {
-        this.date = date;
     }
 
     public LocalDateTime getCreatedAt() {
