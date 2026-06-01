@@ -27,6 +27,17 @@ public class JwtTokenProvider {
     public String generateToken(String userId) {
         return Jwts.builder()
                 .setSubject(userId)
+                .claim("roles", java.util.Collections.emptyList())
+                .setIssuedAt(new Date())
+                .setExpiration(new Date(System.currentTimeMillis() + jwtExpiration))
+                .signWith(getSigningKey(), SignatureAlgorithm.HS512)
+                .compact();
+    }
+
+    public String generateToken(String userId, java.util.List<String> roles) {
+        return Jwts.builder()
+                .setSubject(userId)
+                .claim("roles", roles)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + jwtExpiration))
                 .signWith(getSigningKey(), SignatureAlgorithm.HS512)
@@ -55,6 +66,24 @@ public class JwtTokenProvider {
             return true;
         } catch (JwtException e) {
             return false;
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    public java.util.List<String> getRolesFromToken(String token) {
+        try {
+            Claims claims = Jwts.parserBuilder()
+                    .setSigningKey(getSigningKey())
+                    .build()
+                    .parseClaimsJws(token)
+                    .getBody();
+            Object rolesObj = claims.get("roles");
+            if (rolesObj instanceof java.util.List) {
+                return (java.util.List<String>) rolesObj;
+            }
+            return java.util.Collections.emptyList();
+        } catch (JwtException e) {
+            return java.util.Collections.emptyList();
         }
     }
 }

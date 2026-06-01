@@ -42,8 +42,13 @@ public class JournalEntryController {
         return null;
     }
 
-    @GetMapping
-    public ResponseEntity<?> getAllEntries(@RequestHeader(value = "Authorization", required = false) String token) {
+        @GetMapping
+        public ResponseEntity<?> getAllEntries(
+            @RequestHeader(value = "Authorization", required = false) String token,
+            @RequestParam(value = "page", defaultValue = "0") int page,
+            @RequestParam(value = "size", defaultValue = "20") int size,
+            @RequestParam(value = "q", required = false) String q
+        ) {
         try {
             String userId = extractUserIdFromToken(token);
             if (userId == null) {
@@ -53,12 +58,36 @@ public class JournalEntryController {
             }
             
             logger.info("Fetching entries for userId: {}", userId);
-            List<JournalEntry> entries = journalEntryService.getAllByUserId(userId);
-            
+
+            org.springframework.data.domain.Page<com.example.journalApp.entity.JournalEntry> pageResult;
+            if (q != null && !q.isBlank()) {
+                pageResult = journalEntryService.searchByUserId(userId, q, page, size);
+            } else {
+                pageResult = journalEntryService.getAllByUserId(userId, page, size);
+            }
+
+            List<com.example.journalApp.dto.JournalEntryDTO> dtoList = pageResult.getContent().stream().map(e -> {
+                com.example.journalApp.dto.JournalEntryDTO d = new com.example.journalApp.dto.JournalEntryDTO();
+                d.setId(e.getId() != null ? e.getId().toString() : null);
+                d.setTitle(e.getTitle());
+                d.setContent(e.getContent());
+                d.setUserId(e.getUserId());
+                d.setCreatedAt(e.getCreatedAt());
+                d.setUpdatedAt(e.getUpdatedAt());
+                return d;
+            }).toList();
+
+            Map<String, Object> meta = new HashMap<>();
+            meta.put("page", pageResult.getNumber());
+            meta.put("size", pageResult.getSize());
+            meta.put("totalElements", pageResult.getTotalElements());
+            meta.put("totalPages", pageResult.getTotalPages());
+
             Map<String, Object> response = new HashMap<>();
             response.put("success", true);
             response.put("userId", userId);
-            response.put("data", entries);
+            response.put("data", dtoList);
+            response.put("meta", meta);
             return ResponseEntity.ok(response);
         } catch (Exception e) {
             logger.error("Error fetching entries", e);
@@ -69,7 +98,7 @@ public class JournalEntryController {
     }
 
     @PostMapping
-    public ResponseEntity<?> createEntry(@RequestBody JournalEntry myJournal, 
+    public ResponseEntity<?> createEntry(@jakarta.validation.Valid @RequestBody com.example.journalApp.dto.JournalEntryDTO myJournalDto, 
                                           @RequestHeader(value = "Authorization", required = false) String token) {
         try {
             String userId = extractUserIdFromToken(token);
@@ -78,24 +107,23 @@ public class JournalEntryController {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                     .body(Map.of("error", "Unauthorized: No valid token provided"));
             }
-            
-            if (myJournal.getTitle() == null || myJournal.getContent() == null) {
-                Map<String, String> error = new HashMap<>();
-                error.put("error", "Title and content are required");
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
-            }
-
             logger.info("Creating entry for userId: {}", userId);
-            myJournal.setUserId(userId);
+            JournalEntry myJournal = new JournalEntry(myJournalDto.getTitle(), myJournalDto.getContent(), userId);
             myJournal.setDate(LocalDateTime.now());
             myJournal.setCreatedAt(LocalDateTime.now());
-            myJournal.setUpdatedAt(LocalDateTime.now());
             journalEntryService.saveEntry(myJournal);
+
+            com.example.journalApp.dto.JournalEntryDTO d = new com.example.journalApp.dto.JournalEntryDTO();
+            d.setId(myJournal.getId() != null ? myJournal.getId().toString() : null);
+            d.setTitle(myJournal.getTitle());
+            d.setContent(myJournal.getContent());
+            d.setUserId(myJournal.getUserId());
+            d.setCreatedAt(myJournal.getCreatedAt());
 
             Map<String, Object> response = new HashMap<>();
             response.put("success", true);
             response.put("userId", userId);
-            response.put("data", myJournal);
+            response.put("data", d);
             return ResponseEntity.status(HttpStatus.CREATED).body(response);
 
         } catch (Exception e) {
@@ -126,9 +154,16 @@ public class JournalEntryController {
                         .body(Map.of("error", "Access denied: Entry belongs to another user"));
                 }
                 
+                com.example.journalApp.dto.JournalEntryDTO d = new com.example.journalApp.dto.JournalEntryDTO();
+                d.setId(entry.get().getId() != null ? entry.get().getId().toString() : null);
+                d.setTitle(entry.get().getTitle());
+                d.setContent(entry.get().getContent());
+                d.setUserId(entry.get().getUserId());
+                d.setCreatedAt(entry.get().getCreatedAt());
+
                 Map<String, Object> response = new HashMap<>();
                 response.put("success", true);
-                response.put("data", entry.get());
+                response.put("data", d);
                 return ResponseEntity.ok(response);
             } else {
                 Map<String, String> error = new HashMap<>();
@@ -183,7 +218,7 @@ public class JournalEntryController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateJournalEntryById(@PathVariable ObjectId id, @RequestBody JournalEntry newJournal, @RequestHeader("Authorization") String token) {
+    public ResponseEntity<?> updateJournalEntryById(@PathVariable ObjectId id, @jakarta.validation.Valid @RequestBody com.example.journalApp.dto.JournalEntryDTO newJournal, @RequestHeader("Authorization") String token) {
         try {
             Optional<JournalEntry> optionalEntry = journalEntryService.findById(id);
             if (!optionalEntry.isPresent()) {
@@ -203,9 +238,16 @@ public class JournalEntryController {
 
             journalEntryService.saveEntry(old);
 
+            com.example.journalApp.dto.JournalEntryDTO d = new com.example.journalApp.dto.JournalEntryDTO();
+            d.setId(old.getId() != null ? old.getId().toString() : null);
+            d.setTitle(old.getTitle());
+            d.setContent(old.getContent());
+            d.setUserId(old.getUserId());
+            d.setUpdatedAt(old.getUpdatedAt());
+
             Map<String, Object> response = new HashMap<>();
             response.put("success", true);
-            response.put("data", old);
+            response.put("data", d);
             return ResponseEntity.ok(response);
 
         } catch (Exception e) {

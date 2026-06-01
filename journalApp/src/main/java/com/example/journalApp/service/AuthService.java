@@ -2,7 +2,7 @@ package com.example.journalApp.service;
 
 import com.example.journalApp.entity.User;
 import com.example.journalApp.repository.UserRepository;
-import com.example.journalApp.security.JwtUtil;
+import com.example.journalApp.util.JwtTokenProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -15,9 +15,10 @@ public class AuthService {
     private UserRepository userRepository;
 
     @Autowired
-    private JwtUtil jwtUtil;
+    private JwtTokenProvider jwtTokenProvider;
 
-    private BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+    @Autowired
+    private org.springframework.security.crypto.password.PasswordEncoder passwordEncoder;
 
     public User register(String name, String email, String password) throws Exception {
         Optional<User> existingUser = userRepository.findByEmail(email);
@@ -29,6 +30,10 @@ public class AuthService {
         newUser.setName(name);
         newUser.setEmail(email);
         newUser.setPassword(passwordEncoder.encode(password));
+        if (newUser.getRoles() == null || newUser.getRoles().isEmpty()) {
+            newUser.setRoles(new java.util.ArrayList<>());
+            newUser.getRoles().add("ROLE_USER");
+        }
 
         return userRepository.save(newUser);
     }
@@ -43,7 +48,9 @@ public class AuthService {
             throw new Exception("Invalid password");
         }
 
-        return jwtUtil.generateToken(email);
+        String userId = user.get().getId().toString();
+        java.util.List<String> roles = user.get().getRoles() == null ? java.util.Collections.emptyList() : user.get().getRoles();
+        return jwtTokenProvider.generateToken(userId, roles);
     }
 
     public Optional<User> getUserByEmail(String email) {

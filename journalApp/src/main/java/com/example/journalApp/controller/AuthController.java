@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.security.access.prepost.PreAuthorize;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -18,30 +19,18 @@ public class AuthController {
     private AuthService authService;
 
     @PostMapping("/register")
-    public ResponseEntity<?> register(@RequestBody Map<String, String> request) {
+    public ResponseEntity<?> register(@jakarta.validation.Valid @RequestBody com.example.journalApp.dto.RegisterRequest request) {
         try {
-            String name = request.get("name");
-            String email = request.get("email");
-            String password = request.get("password");
-
-            if (name == null || email == null || password == null) {
-                Map<String, String> error = new HashMap<>();
-                error.put("error", "Name, email, and password are required");
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
-            }
-
-            User user = authService.register(name, email, password);
-
-            Map<String, Object> response = new HashMap<>();
-            response.put("success", true);
-            response.put("message", "User registered successfully");
-            response.put("user", Map.of(
-                    "id", user.getId().toString(),
-                    "name", user.getName(),
-                    "email", user.getEmail()
-            ));
-
-            return ResponseEntity.status(HttpStatus.CREATED).body(response);
+            User user = authService.register(request.getName(), request.getEmail(), request.getPassword());
+            com.example.journalApp.dto.UserResponse userResp = new com.example.journalApp.dto.UserResponse(
+                    user.getId() != null ? user.getId().toString() : null,
+                    user.getName(),
+                    user.getEmail(),
+                    user.getCreatedAt(),
+                    user.getRoles()
+            );
+            com.example.journalApp.dto.AuthResponse resp = new com.example.journalApp.dto.AuthResponse(true, null, userResp);
+            return ResponseEntity.status(HttpStatus.CREATED).body(resp);
 
         } catch (Exception e) {
             Map<String, String> error = new HashMap<>();
@@ -50,31 +39,20 @@ public class AuthController {
         }
     }
 
-    @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody Map<String, String> request) {
+        @PostMapping("/login")
+        public ResponseEntity<?> login(@jakarta.validation.Valid @RequestBody com.example.journalApp.dto.LoginRequest request) {
         try {
-            String email = request.get("email");
-            String password = request.get("password");
-
-            if (email == null || password == null) {
-                Map<String, String> error = new HashMap<>();
-                error.put("error", "Email and password are required");
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
-            }
-
-            String token = authService.login(email, password);
-            User user = authService.getUserByEmail(email).get();
-
-            Map<String, Object> response = new HashMap<>();
-            response.put("success", true);
-            response.put("token", token);
-            response.put("user", Map.of(
-                    "id", user.getId().toString(),
-                    "name", user.getName(),
-                    "email", user.getEmail()
-            ));
-
-            return ResponseEntity.status(HttpStatus.OK).body(response);
+            String token = authService.login(request.getEmail(), request.getPassword());
+            User user = authService.getUserByEmail(request.getEmail()).get();
+            com.example.journalApp.dto.UserResponse userResp = new com.example.journalApp.dto.UserResponse(
+                    user.getId() != null ? user.getId().toString() : null,
+                    user.getName(),
+                    user.getEmail(),
+                    user.getCreatedAt(),
+                    user.getRoles()
+            );
+            com.example.journalApp.dto.AuthResponse resp = new com.example.journalApp.dto.AuthResponse(true, token, userResp);
+            return ResponseEntity.status(HttpStatus.OK).body(resp);
 
         } catch (Exception e) {
             Map<String, String> error = new HashMap<>();
@@ -82,4 +60,12 @@ public class AuthController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(error);
         }
     }
+
+    @GetMapping("/admin-test")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<?> adminTest() {
+        return ResponseEntity.ok(Map.of("success", true, "message", "admin access granted"));
+    }
+
+    
 }

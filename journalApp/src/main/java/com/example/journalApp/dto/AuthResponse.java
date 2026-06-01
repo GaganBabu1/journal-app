@@ -1,39 +1,24 @@
 package com.example.journalApp.dto;
 
 public class AuthResponse {
+    private boolean success;
     private String token;
-    private String userId;
-    private String message;
+    private UserResponse user;
 
     public AuthResponse() {}
 
-    public AuthResponse(String token, String userId, String message) {
+    public AuthResponse(boolean success, String token, UserResponse user) {
+        this.success = success;
         this.token = token;
-        this.userId = userId;
-        this.message = message;
+        this.user = user;
     }
 
-    public String getToken() {
-        return token;
-    }
+    public boolean isSuccess() { return success; }
+    public void setSuccess(boolean success) { this.success = success; }
 
-    public void setToken(String token) {
-        this.token = token;
-    }
+    public String getToken() { return token; }
+    public void setToken(String token) { this.token = token; }
 
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
+    public UserResponse getUser() { return user; }
+    public void setUser(UserResponse user) { this.user = user; }
 }

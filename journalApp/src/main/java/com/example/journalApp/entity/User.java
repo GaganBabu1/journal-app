@@ -14,8 +14,11 @@ public class User {
     private String email;
     private String password;
     private LocalDateTime createdAt;
+    private java.util.List<String> roles;
 
     public User() {
+        this.roles = new java.util.ArrayList<>();
+        this.roles.add("ROLE_USER");
     }
 
     public User(String name, String email, String password) {
@@ -23,6 +26,8 @@ public class User {
         this.email = email;
         this.password = password;
         this.createdAt = LocalDateTime.now();
+        this.roles = new java.util.ArrayList<>();
+        this.roles.add("ROLE_USER");
     }
 
     public ObjectId getId() {
@@ -63,5 +68,13 @@ public class User {
 
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public java.util.List<String> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(java.util.List<String> roles) {
+        this.roles = roles;
     }
 }
