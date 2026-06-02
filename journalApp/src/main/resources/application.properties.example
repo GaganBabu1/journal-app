@@ -2,4 +2,5 @@ spring.application.name=journalApp
 spring.data.mongodb.host=localhost
 spring.data.mongodb.port=27017
 spring.data.mongodb.database=journaldb
-
+jwt.secret=replace_with_a_secret_at_least_64_characters_long_for_hs512
+jwt.expiration=86400000

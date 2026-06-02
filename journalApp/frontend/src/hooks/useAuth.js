@@ -1,5 +1,10 @@
-// useAuth custom hook
-// Features:
-// - Access auth context
-// - Return: user, token, login(), logout(), isAuthenticated
-// - Use in components to check auth status
+import { useContext } from 'react';
+import { AuthContext } from '../context/AuthContext';
+
+export default function useAuth() {
+	const context = useContext(AuthContext);
+	if (!context) {
+		throw new Error('useAuth must be used within AuthProvider');
+	}
+	return context;
+}

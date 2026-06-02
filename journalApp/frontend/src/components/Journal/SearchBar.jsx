@@ -1,8 +1,33 @@
-// Search bar component
-// Import: useState
-// Features:
-// - Search input field
-// - Date range pickers (from, to)
-// - Search button
-// - Call parent component with search query
-// - Or make API call to /api/v1/journals/search
+import { useState } from 'react';
+
+export default function SearchBar({ onSearch, loading = false }) {
+	const [query, setQuery] = useState('');
+
+	const handleSubmit = (event) => {
+		event.preventDefault();
+		onSearch(query.trim());
+	};
+
+	const handleClear = () => {
+		setQuery('');
+		onSearch('');
+	};
+
+	return (
+		<form className="search-row" onSubmit={handleSubmit}>
+			<input
+				type="search"
+				value={query}
+				onChange={(event) => setQuery(event.target.value)}
+				placeholder="Search by title or content"
+				aria-label="Search journal entries"
+			/>
+			<button type="submit" className="btn btn--primary" disabled={loading}>
+				Search
+			</button>
+			<button type="button" className="btn btn--ghost" onClick={handleClear} disabled={loading}>
+				Clear
+			</button>
+		</form>
+	);
+}

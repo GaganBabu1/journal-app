@@ -1,7 +1,13 @@
-// ProtectedRoute component
-// Import: Navigate, useAuth hook
-// Features:
-// - Check if user is logged in (check JWT token)
-// - If authenticated: show component
-// - If not: redirect to login page
-// - Wrapper for routes that need auth
+import { Navigate, useLocation } from 'react-router-dom';
+import useAuth from '../../hooks/useAuth';
+
+export default function ProtectedRoute({ children }) {
+	const location = useLocation();
+	const { isAuthenticated } = useAuth();
+
+	if (!isAuthenticated) {
+		return <Navigate to="/login" replace state={{ from: location }} />;
+	}
+
+	return children;
+}

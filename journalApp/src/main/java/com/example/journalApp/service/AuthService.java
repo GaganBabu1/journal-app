@@ -10,6 +10,7 @@ import java.util.Optional;
 
 @Service
 public class AuthService {
+    private static final java.util.List<String> USER_ONLY_ROLE = java.util.List.of("ROLE_USER");
 
     @Autowired
     private UserRepository userRepository;
@@ -30,10 +31,7 @@ public class AuthService {
         newUser.setName(name);
         newUser.setEmail(email);
         newUser.setPassword(passwordEncoder.encode(password));
-        if (newUser.getRoles() == null || newUser.getRoles().isEmpty()) {
-            newUser.setRoles(new java.util.ArrayList<>());
-            newUser.getRoles().add("ROLE_USER");
-        }
+        newUser.setRoles(USER_ONLY_ROLE);
 
         return userRepository.save(newUser);
     }
@@ -48,9 +46,16 @@ public class AuthService {
             throw new Exception("Invalid password");
         }
 
-        String userId = user.get().getId().toString();
-        java.util.List<String> roles = user.get().getRoles() == null ? java.util.Collections.emptyList() : user.get().getRoles();
-        return jwtTokenProvider.generateToken(userId, roles);
+        User loggedInUser = user.get();
+        String userId = loggedInUser.getId().toString();
+
+        // Enforce single-role model across existing users as well.
+        if (loggedInUser.getRoles() == null || !loggedInUser.getRoles().equals(USER_ONLY_ROLE)) {
+            loggedInUser.setRoles(USER_ONLY_ROLE);
+            userRepository.save(loggedInUser);
+        }
+
+        return jwtTokenProvider.generateToken(userId, USER_ONLY_ROLE);
     }
 
     public Optional<User> getUserByEmail(String email) {
