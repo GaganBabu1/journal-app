@@ -32,7 +32,7 @@ describe('Login', () => {
 			</MemoryRouter>
 		);
 
-		await userEvent.click(screen.getByRole('button', { name: 'Login' }));
+		await userEvent.click(screen.getByRole('button', { name: 'Log In' }));
 
 		expect(screen.getByText('Email and password are required.')).toBeInTheDocument();
 		expect(mockLogin).not.toHaveBeenCalled();
@@ -46,9 +46,9 @@ describe('Login', () => {
 			</MemoryRouter>
 		);
 
-		await userEvent.type(screen.getByPlaceholderText('you@example.com'), 'a@b.com');
-		await userEvent.type(screen.getByPlaceholderText('Your password'), 'secret123');
-		await userEvent.click(screen.getByRole('button', { name: 'Login' }));
+		await userEvent.type(screen.getByPlaceholderText('Email address'), 'a@b.com');
+		await userEvent.type(screen.getByPlaceholderText('Password'), 'secret123');
+		await userEvent.click(screen.getByRole('button', { name: 'Log In' }));
 
 		expect(mockLogin).toHaveBeenCalledWith('a@b.com', 'secret123');
 		expect(mockNavigate).toHaveBeenCalledWith('/dashboard');

@@ -44,7 +44,8 @@ describe('DashboardPage', () => {
 
 		expect(mockLoadEntries).toHaveBeenCalledWith({});
 		expect(screen.getByText('First entry')).toBeInTheDocument();
-		expect(screen.getByText(/Showing page 1 of 1/i)).toBeInTheDocument();
+		expect(screen.getByText(/Showing page/i)).toBeInTheDocument();
+		expect(screen.getByText(/1 total entries/i)).toBeInTheDocument();
 	});
 
 	it('deletes an entry after confirmation', async () => {
