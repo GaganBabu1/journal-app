@@ -3,6 +3,15 @@ WORKDIR /app
 COPY pom.xml .
 RUN mvn dependency:go-offline -B
 COPY src ./src
+
+
+RUN mkdir -p src/main/resources && cat > src/main/resources/application.properties << 'EOF'
+spring.application.name=journalApp
+spring.data.mongodb.uri=${MONGO_URI}
+jwt.secret=journalapp_super_secure_hs512_secret_key_at_least_64_chars_long_2026
+jwt.expiration=86400000
+EOF
+
 RUN mvn package -DskipTests=true -B
 
 FROM eclipse-temurin:21-jre-alpine AS runtime
