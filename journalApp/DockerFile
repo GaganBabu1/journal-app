@@ -1,0 +1,69 @@
+# ============================================================
+# STAGE 1: BUILD STAGE
+# Uses the full JDK + Maven image to compile and package the app.
+# This image is large (~500MB+) but is NEVER shipped to production.
+# It only exists temporarily inside the Docker build process.
+# ============================================================
+FROM maven:3.9.6-eclipse-temurin-21 AS builder
+
+# Set a working directory inside the build container
+WORKDIR /app
+
+# --- Dependency Caching Trick (Critical for Performance) ---
+# Copy ONLY the pom.xml first. Docker caches each instruction as a
+# "layer." If pom.xml hasn't changed, Docker reuses the cached
+# dependency download layer and skips straight to copying your source.
+# This makes rebuilds dramatically faster on every subsequent push.
+COPY pom.xml .
+RUN mvn dependency:go-offline -B
+
+# Now copy the actual source code
+COPY src ./src
+
+# Package the app: compile → test → produce the .jar
+# -DskipTests=true because tests already ran in your CI 'build' job.
+# Running them again here wastes 2-3 minutes for no new information.
+RUN mvn package -DskipTests=true -B
+
+
+# ============================================================
+# STAGE 2: RUNTIME STAGE
+# Uses a minimal JRE on Alpine Linux.
+# Alpine is ~5MB. This final image will be ~100-150MB vs ~500MB+.
+# Smaller image = faster pulls, smaller attack surface, lower cost.
+# ============================================================
+FROM eclipse-temurin:21-jre-alpine AS runtime
+
+# Security best practice: NEVER run your app as root inside a container.
+# We create a dedicated system user with no login shell and no home dir.
+# If an attacker compromises your app, they get a locked-down user,
+# not root access to the container.
+RUN addgroup -S appgroup && adduser -S appuser -G appgroup
+
+# Set the working directory in the runtime container
+WORKDIR /app
+
+# Copy ONLY the compiled .jar from the builder stage.
+# Nothing else (source code, Maven cache, JDK) comes with it.
+COPY --from=builder /app/target/*.jar app.jar
+
+# Switch to the non-root user before the app starts
+USER appuser
+
+# Declare the port your Spring Boot app listens on.
+# This is documentation — it doesn't actually open the port.
+# The actual port mapping happens in docker-compose.yml.
+EXPOSE 8080
+
+# JVM tuning flags for running inside a container:
+# -XX:+UseContainerSupport: Tells the JVM to respect Docker's CPU/RAM
+#   limits instead of reading the host machine's resources.
+# -XX:MaxRAMPercentage=75.0: Use at most 75% of the container's
+#   allocated RAM for the heap. Leaves room for OS + non-heap memory.
+# -Djava.security.egd=...: Speeds up app startup on Linux by using
+#   a faster (non-blocking) random number source.
+ENTRYPOINT ["java", \
+  "-XX:+UseContainerSupport", \
+  "-XX:MaxRAMPercentage=75.0", \
+  "-Djava.security.egd=file:/dev/./urandom", \
+  "-jar", "app.jar"]
