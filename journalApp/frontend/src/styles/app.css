@@ -1,16 +1,25 @@
 :root {
 	font-family: Inter, Arial, sans-serif;
 	color: #0f172a;
-	background: #f8fafc;
 }
 
 * {
 	box-sizing: border-box;
 }
 
+html,
+body {
+	height: 100%;
+	min-height: 100%;
+}
+
+html {
+	background-color: #7fafdf;
+}
+
 body {
 	margin: 0;
-	background: #f8fafc;
+	background-color: #7fafdf;
 }
 
 a {
@@ -185,4 +194,727 @@ a {
 	background: rgba(255, 255, 255, 0.1);
 	padding: 0.2rem 0.55rem;
 	border-radius: 999px;
+}
+
+/* ==========================================
+   Facebook-Inspired Login Layout Styles
+   ========================================== */
+
+/* Layout wrapper styling */
+.fb-layout-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 80vh;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 1.5rem;
+    gap: 2.5rem;
+}
+
+/* Left Brand Content */
+.fb-brand-section {
+    text-align: center;
+    max-width: 400px;
+}
+
+.fb-logo {
+    font-size: 3.5rem;
+    font-weight: 800;
+    color: #2563eb; /* Clean blue header color */
+    margin: 0 0 0.5rem 0;
+    letter-spacing: -0.05em;
+}
+
+.fb-subtitle {
+    font-size: 1.3rem;
+    line-height: 1.4;
+    color: #1e293b;
+    margin: 0;
+}
+
+/* Right Card Container */
+.fb-form-container {
+    width: 100%;
+    max-width: 400px;
+}
+
+.fb-card {
+    padding: 1.25rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08), 0 2px 4px rgba(0, 0, 0, 0.04);
+    background: #ffffff;
+    border: 1px solid #dddfe2;
+}
+
+.fb-form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+}
+
+/* Target input wrapper cleanups */
+.fb-form .input-wrapper input {
+    width: 100%;
+    font-size: 1rem;
+    padding: 0.85rem 1rem;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    outline: none;
+    transition: border-color 0.15s ease;
+}
+
+.fb-form .input-wrapper input:focus {
+    border-color: #2563eb;
+    box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.15);
+}
+
+.fb-error {
+    font-size: 0.875rem;
+    text-align: center;
+    margin-top: 0.25rem;
+}
+
+/* Main Login Action Button */
+.fb-login-btn {
+    font-size: 1.25rem;
+    font-weight: 700;
+    padding: 0.75rem;
+    border-radius: 6px;
+    margin-top: 0.25rem;
+}
+
+/* Separation Rule Line */
+.fb-divider {
+    align-items: center;
+    border-bottom: 1px solid #dadde1;
+    display: flex;
+    margin: 1.25rem 0;
+    text-align: center;
+}
+
+/* Secondary Actions Box */
+.fb-register-action {
+    display: flex;
+    justify-content: center;
+    padding-top: 0.25rem;
+}
+
+/* Secondary Create Account Button styling */
+.fb-register-btn {
+    background-color: #16a34a; /* Distinct secondary green color */
+    color: white;
+    font-size: 1.05rem;
+    font-weight: 700;
+    padding: 0.75rem 1.25rem;
+    border-radius: 6px;
+    display: inline-block;
+    transition: background-color 0.15s ease;
+}
+
+.fb-register-btn:hover {
+    background-color: #15803d;
+}
+
+/* Desktop Responsiveness Split View Switch */
+@media (min-width: 900px) {
+    .fb-layout-container {
+        flex-direction: row;
+        justify-content: space-between;
+        padding: 6rem 2rem;
+        gap: 2rem;
+    }
+
+    .fb-brand-section {
+        text-align: left;
+        max-width: 500px;
+        padding-bottom: 2rem;
+    }
+
+    .fb-logo {
+        font-size: 4rem;
+    }
+
+    .fb-subtitle {
+        font-size: 1.75rem;
+    }
+    
+    .fb-form-container {
+        max-width: 400px;
+    }
+}
+
+/* ==========================================
+   Modern Production-Ready Landing Page
+   ========================================== */
+
+.landing-wrapper {
+    background-color: #f8fafc;
+    min-height: 100vh;
+    font-family: Inter, Arial, sans-serif;
+    color: #0f172a;
+}
+
+/* Nav Bar styles */
+.landing-nav {
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid #e2e8f0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.landing-nav-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 1rem 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.landing-nav-logo {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: #2563eb;
+    letter-spacing: -0.03em;
+}
+
+.landing-nav-links {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.landing-link-login {
+    font-weight: 600;
+    color: #4b5563;
+    font-size: 0.95rem;
+    transition: color 0.15s ease;
+}
+
+.landing-link-login:hover {
+    color: #2563eb;
+}
+
+.landing-btn-nav {
+    background: #0f172a;
+    color: #ffffff;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+/* Hero Elements styling */
+.landing-hero {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 5rem 1.5rem 3rem 1.5rem;
+    text-align: center;
+}
+
+.landing-badge {
+    background: #eff6ff;
+    color: #1d4ed8;
+    padding: 0.35rem 0.85rem;
+    border-radius: 999px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    display: inline-block;
+    margin-bottom: 1.5rem;
+    border: 1px solid #dbeafe;
+}
+
+.landing-title {
+    font-size: 3rem;
+    font-weight: 800;
+    line-height: 1.15;
+    letter-spacing: -0.04em;
+    margin: 0 0 1.25rem 0;
+}
+
+.landing-subtitle {
+    font-size: 1.25rem;
+    line-height: 1.6;
+    color: #4b5563;
+    max-width: 650px;
+    margin: 0 auto 2.5rem auto;
+}
+
+.landing-actions {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 1rem;
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+/* Master Action Controls */
+.landing-btn {
+    padding: 0.85rem 1.75rem;
+    border-radius: 8px;
+    font-size: 1.05rem;
+    font-weight: 700;
+    text-align: center;
+    transition: all 0.15s ease;
+}
+
+.landing-btn-primary {
+    background-color: #2563eb;
+    color: white;
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+}
+
+.landing-btn-primary:hover {
+    background-color: #1d4ed8;
+}
+
+.landing-btn-secondary {
+    background-color: #ffffff;
+    color: #1e293b;
+    border: 1px solid #cbd5e1;
+}
+
+.landing-btn-secondary:hover {
+    background-color: #f1f5f9;
+}
+
+/* App Mockup Component Window */
+.landing-preview-card {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    box-shadow: 0 20px 25px -5px rgba(0,0,0,0.05), 0 10px 10px -5px rgba(0,0,0,0.02);
+    margin: 4rem auto 0 auto;
+    max-width: 600px;
+    text-align: left;
+    overflow: hidden;
+}
+
+.preview-header {
+    background: #f1f5f9;
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid #e2e8f0;
+    display: flex;
+    align-items: center;
+}
+
+.preview-dots {
+    display: flex;
+    gap: 0.35rem;
+    margin-right: 1.5rem;
+}
+
+.preview-dots span {
+    width: 8px;
+    height: 8px;
+    background: #cbd5e1;
+    border-radius: 50%;
+}
+
+.preview-title {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #64748b;
+}
+
+.preview-body {
+    padding: 1.5rem;
+}
+
+.preview-date {
+    font-size: 0.85rem;
+    color: #2563eb;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+.preview-text-line {
+    font-size: 1rem;
+    color: #4b5563;
+    line-height: 1.5;
+    margin-bottom: 0.25rem;
+}
+
+.preview-text-line.high {
+    color: #0f172a;
+    font-weight: 600;
+}
+
+.preview-tags {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 1rem;
+}
+
+.tag-pill {
+    background: #f1f5f9;
+    color: #4b5563;
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+}
+
+/* Functional Feature Grid Columns */
+.landing-features {
+    max-width: 1100px;
+    margin: 4rem auto;
+    padding: 0 1.5rem;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+}
+
+.feature-card {
+    background: white;
+    border: 1px solid #e2e8f0;
+    padding: 2rem;
+    border-radius: 12px;
+    transition: transform 0.2s ease;
+}
+
+.feature-card:hover {
+    transform: translateY(-4px);
+}
+
+.feature-icon {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+}
+
+.feature-card h3 {
+    margin: 0 0 0.5rem 0;
+    font-size: 1.25rem;
+    font-weight: 700;
+}
+
+.feature-card p {
+    margin: 0;
+    color: #4b5563;
+    line-height: 1.5;
+    font-size: 0.95rem;
+}
+
+/* Bottom Closing Pitch CTA Block */
+.landing-footer-cta {
+    background: #0f172a;
+    color: white;
+    text-align: center;
+    padding: 5rem 1.5rem;
+    margin-top: 6rem;
+}
+
+.landing-footer-cta h2 {
+    font-size: 2.25rem;
+    font-weight: 800;
+    margin: 0 0 0.75rem 0;
+    letter-spacing: -0.03em;
+}
+
+.landing-footer-cta p {
+    color: #94a3b8;
+    font-size: 1.1rem;
+    margin: 0 0 2.5rem 0;
+}
+
+.green-glow {
+    background-color: #16a34a;
+    box-shadow: 0 4px 14px rgba(22, 163, 74, 0.3);
+    display: inline-block;
+}
+
+.green-glow:hover {
+    background-color: #15803d;
+}
+
+/* Modern Media Breakpoint Escalations */
+@media (min-width: 640px) {
+    .landing-title {
+        font-size: 4rem;
+    }
+    
+    .landing-actions {
+        flex-direction: row;
+    }
+}
+
+@media (min-width: 900px) {
+    .landing-features {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+/* ==========================================
+   Modern Production Navigation Bar Styles
+   ========================================== */
+
+.top-nav {
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid #e2e8f0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.top-nav__inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0.85rem 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.brand {
+    font-size: 1.35rem;
+    font-weight: 800;
+    color: #0f172a;
+    letter-spacing: -0.03em;
+}
+
+.brand-dot {
+    color: #2563eb; /* Uses our application blue */
+}
+
+.top-nav__links {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+}
+
+/* Base Nav Link Settings */
+.nav-link {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #4b5563;
+    transition: color 0.15s ease;
+}
+
+.nav-link:hover {
+    color: #2563eb;
+}
+
+.nav-link--login {
+    color: #4b5563;
+}
+
+/* User identity signature badge */
+.user-pill {
+    background: #eff6ff;
+    color: #1d4ed8;
+    font-size: 0.85rem;
+    font-weight: 600;
+    padding: 0.3rem 0.75rem;
+    border-radius: 999px;
+    border: 1px solid #dbeafe;
+}
+
+/* Custom Interactive Actions */
+.nav-logout-btn {
+    border: none;
+    background: transparent;
+    color: #64748b;
+    cursor: pointer;
+    font-size: 0.95rem;
+    font-weight: 600;
+    padding: 0;
+    transition: color 0.15s ease;
+}
+
+.nav-logout-btn:hover {
+    color: #b91c1c; /* Changes to dangerous red subtly on hover */
+}
+
+/* Registration Call to Action inside header */
+.nav-register-btn {
+    background: #0f172a;
+    color: #ffffff;
+    padding: 0.45rem 0.9rem;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    transition: background-color 0.15s ease;
+}
+
+.nav-register-btn:hover {
+    background: #1e293b;
+    color: #ffffff;
+}
+
+/* Mobile Tweak Adjustments */
+@media (max-width: 480px) {
+    .top-nav__inner {
+        padding: 0.85rem 1rem;
+    }
+    .top-nav__links {
+        gap: 0.85rem;
+    }
+    .user-pill {
+        display: none; /* Hide profile pill on tight screens to avoid wrapping layout text */
+    }
+}
+
+/* ==========================================
+   Modern Clean Dashboard Layout Styles
+   ========================================== */
+
+.dash-container {
+    max-width: 1000px;
+    margin: 2rem auto;
+    padding: 0 1.5rem 4rem 1.5rem;
+}
+
+/* Header Grid Row alignment */
+.dash-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+    border-bottom: 1px solid #e2e8f0;
+    padding-bottom: 1.5rem;
+}
+
+.dash-header-title h2 {
+    font-size: 1.75rem;
+    font-weight: 800;
+    color: #0f172a;
+    margin: 0 0 0.35rem 0;
+    letter-spacing: -0.02em;
+}
+
+.dash-header-title p {
+    margin: 0;
+    color: #0f172a;
+    font-size: 0.95rem;
+}
+
+/* Prominent New Entry Button Tweak */
+.dash-new-btn {
+    font-weight: 700;
+    font-size: 0.95rem;
+    padding: 0.65rem 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    border-radius: 6px;
+    box-shadow: 0 2px 4px rgba(37, 99, 235, 0.1);
+    white-space: nowrap;
+}
+
+/* Clean Containment Box for Search Input component */
+.dash-controls-card {
+    background: #ffffff;
+    border: 1px solid #dddfe2;
+    border-radius: 8px;
+    padding: 1rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+    margin-bottom: 1rem;
+}
+
+/* Metadata Counters Row styling */
+.dash-meta-bar {
+    padding: 0.25rem 0.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.dash-meta-text {
+    font-size: 0.85rem;
+    color: #0f172a;
+    margin: 0;
+}
+
+.dash-meta-text strong {
+    color: #0f172a;
+}
+
+.dash-meta-divider {
+    margin: 0 0.75rem;
+    color: #cbd5e1;
+}
+
+/* Error banner overlay wrapper styling */
+.dash-message-wrapper {
+    padding: 1rem;
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+}
+
+.dash-message-wrapper.error-box {
+    background: #fef2f2;
+    border: 1px solid #fca5a5;
+}
+
+/* Main items area mapping */
+.dash-main-feed {
+    display: block;
+}
+
+/* Responsive Adaptive Dashboard view layout configurations */
+@media (max-width: 640px) {
+    .dash-container {
+        margin: 1rem auto;
+    }
+    
+    .dash-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+    
+    .dash-new-btn {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+/* ==========================================================================
+   GLOBAL APP BACKGROUND & SURFACE RESET (#F4F7FA)
+   ========================================================================== */
+
+
+
+/* Unified clean card style ensuring cards pop brightly off the new background */
+.card, 
+.fb-card, 
+.fb-home-card, 
+.dash-controls-card, 
+.landing-preview-card,
+.feature-card {
+    background-color: #ffffff !important; /* Crisp pure white container surfaces */
+    border: 1px solid #e2e8f0 !important;   /* Subtle clean border lines */
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.03), 0 1px 3px rgba(15, 23, 42, 0.02) !important;
+}
+
+/* Ensure global top nav balances cleanly against the new body color */
+.top-nav {
+    background: rgba(255, 255, 255, 0.95) !important;
+    border-bottom: 1px solid #e2e8f0 !important;
+}
+
+/* Ensure form text fields stand out sharply against the background texture */
+.fb-form .input-wrapper input,
+.search-row input,
+.form-grid input {
+    background-color: #ffffff;
+    border: 1px solid #cbd5e1;
+}
+
+.fb-form .input-wrapper input:focus,
+.form-grid input:focus {
+    border-color: #2563eb !important;
+    background-color: #ffffff;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+}
+
+/* Subtle separator rule line cleanup */
+.fb-divider {
+    border-bottom: 1px solid #e2e8f0 !important;
 }
