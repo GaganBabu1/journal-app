@@ -10,22 +10,15 @@ import com.mongodb.client.MongoClients;
 
 @Configuration
 public class MongoDBConfig {
-    
-    @Value("${spring.data.mongodb.host}")
-    private String host;
-    
-    @Value("${spring.data.mongodb.port}")
-    private int port;
-    
-    @Value("${spring.data.mongodb.database}")
-    private String database;
-    
+
+    @Value("${spring.data.mongodb.uri}")
+    private String mongoUri;
+
     @Bean
     public MongoDatabaseFactory mongoDatabaseFactory() {
-        String connectionString = String.format("mongodb://%s:%d/%s", host, port, database);
-        return new SimpleMongoClientDatabaseFactory(MongoClients.create(connectionString), database);
+        return new SimpleMongoClientDatabaseFactory(MongoClients.create(mongoUri), "journaldb");
     }
-    
+
     @Bean
     public MongoTemplate mongoTemplate(MongoDatabaseFactory mongoDatabaseFactory) {
         return new MongoTemplate(mongoDatabaseFactory);
