@@ -9,7 +9,7 @@ export default function HomePage() {
             <section className="hero card">
                 <div>
                     <p className="hero-badge">Private journal writing with no extra noise.</p>
-                    <h1>Write and find your notes in one clear place.</h1>
+                    <h1>Write and find your notes in one clear place</h1>
                     <p>
                         Keep your daily journal in a simple app. Add entries, search them fast, and return to your notes later without unnecessary features.
                     </p>
