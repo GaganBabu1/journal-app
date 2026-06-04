@@ -50,8 +50,8 @@ function App() {
 							</ProtectedRoute>
 						}
 					/>
-
-					<Route path="*" element={<Navigate to="/" replace />} />
+					{/* Fallback redirect */}
+					<Route path="*" element={<Navigate to="/dashboard" replace />} />
 				</Routes>
 			</main>
 		</div>

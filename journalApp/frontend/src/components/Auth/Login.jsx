@@ -40,7 +40,7 @@ export default function Login() {
         <div className="fb-layout-container">
             {/* Left Column: Brand Message */}
             <div className="fb-brand-section">
-                <h1 className="fb-logo">Journal.</h1>
+                <h1 className="fb-logo">JournalFlow</h1>
                 <p className="fb-subtitle">
                     Log in to continue writing your journal, track your thoughts, and capture your daily memories.
                 </p>

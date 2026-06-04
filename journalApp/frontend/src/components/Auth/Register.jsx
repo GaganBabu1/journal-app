@@ -50,7 +50,7 @@ export default function Register() {
         <div className="fb-layout-container">
             {/* Left Column: Brand Message */}
             <div className="fb-brand-section">
-                <h1 className="fb-logo">Journal.</h1>
+                <h1 className="fb-logo">JournalFlow</h1>
                 <p className="fb-subtitle">
                     Start tracking your days, capture your inner thoughts, and maintain a private digital diary with your own personal layout.
                 </p>

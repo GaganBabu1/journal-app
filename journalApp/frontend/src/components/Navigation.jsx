@@ -15,7 +15,7 @@ export default function Navigation() {
             <div className="top-nav__inner">
                 {/* Brand Name matching the custom blue layout aesthetic */}
                 <Link to="/" className="brand">
-                    JournalFlow<span className="brand-dot">.</span>
+                    JournalFlow
                 </Link>
 
                 <nav className="top-nav__links">

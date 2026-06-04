@@ -5,78 +5,83 @@ export default function HomePage() {
     const { isAuthenticated } = useAuth();
 
     return (
-        <div className="landing-wrapper">
-            {/* Core Hero Section */}
-            <header className="landing-hero">
-                <div className="landing-hero-content">
-                    <div className="landing-badge">🔒 100% Private & Encrypted</div>
-                    <h1 className="landing-title">Your private daily journal</h1>
-                    <p className="landing-subtitle">
-                        Capture thoughts, track personal milestones, and reflect on your days in one elegant, secure space built for clarity.
+        <div className="page home-page">
+            <section className="hero card">
+                <div>
+                    <p className="hero-badge">Private journal writing with no extra noise.</p>
+                    <h1>Write and find your notes in one clear place.</h1>
+                    <p>
+                        Keep your daily journal in a simple app. Add entries, search them fast, and return to your notes later without unnecessary features.
                     </p>
+                </div>
 
-                    <div className="landing-actions">
-                        {isAuthenticated ? (
-                            <Link className="landing-btn landing-btn-primary" to="/dashboard">
-                                Go to Dashboard
+                <div className="hero-actions">
+                    {isAuthenticated ? (
+                        <Link className="btn btn--primary" to="/dashboard">
+                            Open dashboard
+                        </Link>
+                    ) : (
+                        <>
+                            <Link className="btn btn--primary" to="/register">
+                                Create account
                             </Link>
-                        ) : (
-                            <>
-                                <Link className="landing-btn landing-btn-primary" to="/register">
-                                    Start Writing for Free
-                                </Link>
-                                <Link className="landing-btn landing-btn-secondary" to="/login">
-                                    Sign In to Account
-                                </Link>
-                            </>
-                        )}
-                    </div>
-                </div>
-
-                {/* Minimalist Interactive UI Preview Box */}
-                <div className="landing-preview-card">
-                    <div className="preview-header">
-                        <div className="preview-dots">
-                            <span></span><span></span><span></span>
-                        </div>
-                        <div className="preview-title">My Personal Journal</div>
-                    </div>
-                    <div className="preview-body">
-                        <div className="preview-date">June 3, 2026</div>
-                        <div className="preview-text-line high">Today was an incredibly productive day...</div>
-                        <div className="preview-text-line">Started building out the new user dashboard structure.</div>
-                        <div className="preview-tags"><span className="tag-pill">#progress</span><span className="tag-pill">#coding</span></div>
-                    </div>
-                </div>
-            </header>
-
-            {/* Features Feature Grid Section */}
-            <section className="landing-features">
-                <div className="feature-card">
-                    <div className="feature-icon">🔍</div>
-                    <h3>Smart Search</h3>
-                    <p>Instantly find past entries, ideas, or mood changes with our lightning-fast search filters.</p>
-                </div>
-                <div className="feature-card">
-                    <div className="feature-icon">📱</div>
-                    <h3>Pure Responsive</h3>
-                    <p>Designed to adapt perfectly from desktop down to your mobile screen for seamless writing anywhere.</p>
-                </div>
-                <div className="feature-card">
-                    <div className="feature-icon">🌱</div>
-                    <h3>Clutter Free</h3>
-                    <p>No ads, no algorithmic noise. Just a clean, open space intended exclusively for your thoughts.</p>
+                            <Link className="btn btn--secondary" to="/login">
+                                Sign in
+                            </Link>
+                        </>
+                    )}
                 </div>
             </section>
 
-            {/* Bottom Final Value CTA */}
-            <footer className="landing-footer-cta">
-                <h2>Ready to document your story?</h2>
-                <p>Join thousands of developers and creatives capturing their day-to-day progress.</p>
-                <Link className="landing-btn landing-btn-primary green-glow" to={isAuthenticated ? "/dashboard" : "/register"}>
-                    {isAuthenticated ? "Go to My Dashboard" : "Create Your Free Account"}
-                </Link>
-            </footer>
+            <section className="page-section">
+                <div className="section-head">
+                    <div>
+                        <h2>How it works</h2>
+                        <p>
+                            You can type a journal entry, save it, and search across your notes any time. The design is meant to stay quiet so you can focus.
+                        </p>
+                    </div>
+                </div>
+
+                <div className="screenshot-card card">
+                    <div className="screenshot-header">
+                        <span>Journal entries</span>
+                        <span className="screenshot-search">Search: mood</span>
+                    </div>
+                    <div className="screenshot-list">
+                        <article className="screenshot-entry">
+                            <strong>Weekly check-in</strong>
+                            <p>Update on the work progress and the next items to finish.</p>
+                            <time>June 4, 2026</time>
+                        </article>
+                        <article className="screenshot-entry">
+                            <strong>Notes from today</strong>
+                            <p>Captured the important details from the meeting and ideas for the feature.</p>
+                            <time>June 3, 2026</time>
+                        </article>
+                        <article className="screenshot-entry screenshot-entry--highlighted">
+                            <strong>Journal draft</strong>
+                            <p>Logged how the day went and what steps to take tomorrow.</p>
+                            <time>June 2, 2026</time>
+                        </article>
+                    </div>
+                </div>
+            </section>
+
+            <section className="page-section stats-grid">
+                <div className="stat-card card">
+                    <p className="stat-number">120+</p>
+                    <p>Notes saved during the first month of using the app.</p>
+                </div>
+                <div className="stat-card card">
+                    <p className="stat-number">1</p>
+                    <p>Simple place for your journal writing without extra menus.</p>
+                </div>
+                <div className="stat-card card">
+                    <p className="stat-number">0</p>
+                    <p>No ads or tracking, just your writing.</p>
+                </div>
+            </section>
         </div>
     );
 }

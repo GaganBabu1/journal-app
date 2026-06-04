@@ -33,13 +33,13 @@ export default function DashboardPage() {
                     <h2>Your Dashboard</h2>
                     <p>View, search, and manage your private journal entries.</p>
                 </div>
-                <Link to="/journals/new" className="btn btn--primary dash-new-btn">
-                    <span>+</span> New Entry
+                <Link to="/journals/new" className="dash-new-btn">
+                    + New Entry
                 </Link>
             </header>
 
             {/* Filter Controls Row */}
-            <div className="dash-controls-card">
+            <div className="dash-controls-card dash-search-container">
                 <SearchBar onSearch={onSearch} loading={loading} />
             </div>
 
@@ -61,7 +61,7 @@ export default function DashboardPage() {
             )}
 
             {/* Feed Listing Component Wrapper */}
-            <main className="dash-main-feed">
+            <main className="dash-main-feed dash-feed-container">
                 <JournalList entries={entries} loading={loading} onDelete={onDelete} />
             </main>
         </div>
